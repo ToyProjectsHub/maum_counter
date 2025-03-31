@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 class AffirmationScreen extends StatefulWidget {
   const AffirmationScreen({super.key});
@@ -58,7 +59,6 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
         ),
       );
 
-      // ✅ 처리 후 상태 반영
       if (result == 'reset') {
         box.put('currentAffirmation', text);
         box.put('affirmationCount', 0);
@@ -69,19 +69,26 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
       loadData();
     }
 
-    // ✅ dialog 이후 확실히 포커스 제거
     Future.delayed(Duration.zero, () {
       FocusScope.of(context).unfocus();
     });
   }
-
 
   void incrementCount() {
     setState(() {
       count += 1;
     });
     box.put('affirmationCount', count);
+
+    // 🔹 일간 통계 저장
+    final statsBox = Hive.box('affirmationStats');
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final data = Map<String, int>.from(statsBox.get(today, defaultValue: {}));
+
+    data[currentAffirmation] = (data[currentAffirmation] ?? 0) + 1;
+    statsBox.put(today, data);
   }
+
 
   void toggleFavorite(String text) {
     if (text.trim().isEmpty) return;
@@ -152,6 +159,15 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('확언'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart),
+            tooltip: '통계 보기',
+            onPressed: () {
+              Navigator.pushNamed(context, '/affirmationStats');
+            },
+          ),
+        ],
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
