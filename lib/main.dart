@@ -17,6 +17,7 @@ void main() async {
   await Hive.openBox('hooponoponoBox');
   await Hive.openBox('releasingBox');
   await Hive.openBox('holisticBox');
+  await Hive.openBox('settingsBox');
 
   runApp(const MyApp());
 }
