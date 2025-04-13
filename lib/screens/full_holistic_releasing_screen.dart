@@ -3,18 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
-class SimpleHolisticReleasingScreen extends StatefulWidget {
-  const SimpleHolisticReleasingScreen({super.key});
+class FullHolisticReleasingScreen extends StatefulWidget {
+  const FullHolisticReleasingScreen({super.key});
 
   @override
-  State<SimpleHolisticReleasingScreen> createState() => _SimpleHolisticReleasingScreenState();
+  State<FullHolisticReleasingScreen> createState() => _FullHolisticReleasingScreenState();
 }
 
-class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingScreen> {
+class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<String> questionTemplates = [
-    '나는 최대한 {topic}을/를 환영하도록 나를 허용할 수 있나요?',
-    '나는 최대한 {topic}에 저항하도록 나를 허용할 수 있나요?',
+    '나는 최대한 {topic}에 저항하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 환영하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 거절하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 수용하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 싫어하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 좋아하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 미워하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}을/를 사랑하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}에 "아니요"라고 말하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}에 "예"라고 말하도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}에 마음을 열도록 나를 허용할 수 있는가?',
+    '나는 최대한 {topic}에 마음을 닫도록 나를 허용할 수 있는가?',
   ];
 
   late Box box;
@@ -28,7 +38,7 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
   @override
   void initState() {
     super.initState();
-    box = Hive.box('simpleHolisticBox');
+    box = Hive.box('fullHolisticBox');
     checkAndResetDailyCount();
     scheduleDailyReset();
     loadData();
@@ -48,7 +58,7 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
     Timer(durationUntilMidnight, () async {
       await checkAndResetDailyCount();
       _resetTimer = Timer.periodic(const Duration(days: 1), (_) {
-        checkAndResetDailyCount();
+        checkAndResetDailyCount().then((_) {});
       });
     });
   }
@@ -60,7 +70,11 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
     if (lastReset != today) {
       await box.put('count', 0);
       await box.put('lastResetDate', today);
-      loadData();
+      if (mounted) {
+        setState(() {
+          count = 0;
+        });
+      }
     }
   }
 
@@ -74,7 +88,6 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
 
   void startTopic(String topic) {
     FocusScope.of(context).unfocus();
-
     if (topic.trim().isEmpty) return;
 
     if (topic != currentTopic) {
@@ -90,11 +103,9 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
                 box.put('count', 0);
                 Navigator.of(ctx).pop();
                 loadData();
-
                 Future.delayed(Duration.zero, () {
-                  FocusScope.of(context).unfocus(); // ✅ 다시 한 번 포커스 해제
+                  FocusScope.of(context).unfocus();
                 });
-
                 setState(() {
                   currentQuestionIndex = 0;
                 });
@@ -106,11 +117,9 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
                 box.put('currentTopic', topic);
                 Navigator.of(ctx).pop();
                 loadData();
-
                 Future.delayed(Duration.zero, () {
-                  FocusScope.of(context).unfocus(); // ✅ 다시 한 번 포커스 해제
+                  FocusScope.of(context).unfocus();
                 });
-
                 setState(() {
                   currentQuestionIndex = 0;
                 });
@@ -135,13 +144,12 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
         count += 1;
         box.put('count', count);
 
-        final statsBox = Hive.box('simpleHolisticStats');
+        final statsBox = Hive.box('fullHolisticStats');
         final today = todayKey();
         final data = Map<String, int>.from(statsBox.get(today, defaultValue: {}));
         data[currentTopic] = (data[currentTopic] ?? 0) + 1;
         statsBox.put(today, data);
 
-        // ✅ 다음 프레임에서 0으로 리셋 (UI 안전)
         Future.delayed(Duration.zero, () {
           if (mounted) {
             setState(() {
@@ -177,12 +185,12 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('심플 홀리스틱 릴리징'),
+        title: const Text('풀 홀리스틱 릴리징'),
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart),
             tooltip: '통계 보기',
-            onPressed: () => Navigator.pushNamed(context, '/simpleHolisticStats'),
+            onPressed: () => Navigator.pushNamed(context, '/fullHolisticStats'),
           ),
         ],
       ),
@@ -242,8 +250,8 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
   }
 
   Widget buildQuestionCard() {
-    // ✅ 범위 초과 방지
-    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionTemplates.length) {
+    if (currentQuestionIndex < 0 ||
+        currentQuestionIndex >= questionTemplates.length) {
       return const SizedBox.shrink();
     }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maum_counter/screens/affirmation_screen.dart';
+import 'package:maum_counter/screens/full_holistic_releasing_screen.dart';
+import 'package:maum_counter/screens/full_holistic_releasing_stats_screen.dart';
 import 'package:maum_counter/screens/hooponopono_screen.dart';
 import 'package:maum_counter/screens/releasing_screen.dart';
 import 'package:maum_counter/screens/releasing_stats_screen.dart';
@@ -25,8 +27,10 @@ void main() async {
   await Hive.openBox('hooponoponoStats');
   await Hive.openBox('releasingBox');
   await Hive.openBox('releasingStats');
-  await Hive.openBox('simpleHolistic');
+  await Hive.openBox('simpleHolisticBox');
   await Hive.openBox('simpleHolisticStats');
+  await Hive.openBox('fullHolisticBox');
+  await Hive.openBox('fullHolisticStats');
 
   runApp(const MyApp());
 }
@@ -50,6 +54,8 @@ class MyApp extends StatelessWidget {
         '/releasingStats': (context) => const ReleasingStatsScreen(),
         '/simpleHolistic': (context) => const SimpleHolisticReleasingScreen(),
         '/simpleHolisticStats': (context) => const SimpleHolisticStatsScreen(),
+        '/fullHolistic': (context) => const FullHolisticReleasingScreen(),
+        '/fullHolisticStats': (context) => const FullHolisticReleasingStatsScreen(),
         '/settings': (context) => const Placeholder(), // 설정 화면
       },
     );

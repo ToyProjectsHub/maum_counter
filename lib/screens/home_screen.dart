@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenHeight = constraints.maxHeight;
-          final topSpacing = screenHeight * 0.25; // 💡 세로 위치 조절
+          final topSpacing = screenHeight * 0.2; // 💡 세로 위치 조절
 
           return SingleChildScrollView(
             child: Padding(
@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
                           buildMenuButton(context, '릴리징', '/releasing'),
                           buildMenuButton(
                               context, '심플 홀리스틱 릴리징', '/simpleHolistic'),
+                          buildMenuButton(context, '홀리스틱 릴리징', '/fullHolistic')
                         ],
                       ),
                     ),
