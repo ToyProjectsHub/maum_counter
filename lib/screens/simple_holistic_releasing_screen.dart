@@ -73,6 +73,8 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
   }
 
   void startTopic(String topic) {
+    FocusScope.of(context).unfocus();
+
     if (topic.trim().isEmpty) return;
 
     if (topic != currentTopic) {
@@ -88,6 +90,11 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
                 box.put('count', 0);
                 Navigator.of(ctx).pop();
                 loadData();
+
+                Future.delayed(Duration.zero, () {
+                  FocusScope.of(context).unfocus(); // ✅ 다시 한 번 포커스 해제
+                });
+
                 setState(() {
                   currentQuestionIndex = 0;
                 });
@@ -99,6 +106,11 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
                 box.put('currentTopic', topic);
                 Navigator.of(ctx).pop();
                 loadData();
+
+                Future.delayed(Duration.zero, () {
+                  FocusScope.of(context).unfocus(); // ✅ 다시 한 번 포커스 해제
+                });
+
                 setState(() {
                   currentQuestionIndex = 0;
                 });

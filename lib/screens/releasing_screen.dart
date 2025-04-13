@@ -62,7 +62,13 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
     if (lastReset != today) {
       await box.put('count', 0);
       await box.put('lastResetDate', today);
-      loadData();
+
+      // ✅ UI에 반영
+      if (mounted) {
+        setState(() {
+          count = 0;
+        });
+      }
     }
   }
 
@@ -71,11 +77,12 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
       currentTopic = box.get('currentTopic', defaultValue: '');
       count = box.get('count', defaultValue: 0);
       _controller.text = currentTopic;
-      // ✅ currentQuestionIndex는 유지 (초기화하지 않음)
     });
   }
 
   void startTopic(String topic) {
+    FocusScope.of(context).unfocus();
+
     if (topic.trim().isEmpty) return;
 
     if (topic != currentTopic) {
@@ -91,8 +98,13 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                 box.put('count', 0);
                 Navigator.of(ctx).pop();
                 loadData();
+
+                Future.delayed(Duration.zero, () {
+                  FocusScope.of(context).unfocus();
+                });
+
                 setState(() {
-                  currentQuestionIndex = 0; // ✅ 질문 바로 시작
+                  currentQuestionIndex = 0;
                 });
               },
               child: const Text('확인'),
@@ -102,8 +114,13 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                 box.put('currentTopic', topic);
                 Navigator.of(ctx).pop();
                 loadData();
+
+                Future.delayed(Duration.zero, () {
+                  FocusScope.of(context).unfocus();
+                });
+
                 setState(() {
-                  currentQuestionIndex = 0; // ✅ 질문 바로 시작
+                  currentQuestionIndex = 0;
                 });
               },
               child: const Text('초기화 안함'),
@@ -132,7 +149,6 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
         data[currentTopic] = (data[currentTopic] ?? 0) + 1;
         statsBox.put(today, data);
 
-        // ✅ 다음 프레임에서 질문 0으로 리셋
         Future.delayed(Duration.zero, () {
           if (mounted) {
             setState(() {
@@ -160,7 +176,6 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
       TextSpan(text: fullText.substring(start + topic.length)),
     ];
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +248,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
 
   Widget buildQuestionCard() {
     if (currentQuestionIndex < 0 || currentQuestionIndex >= questionTemplates.length) {
-      return const SizedBox.shrink(); // ✅ 인덱스 범위 보호
+      return const SizedBox.shrink();
     }
 
     final rawQuestion = questionTemplates[currentQuestionIndex];
