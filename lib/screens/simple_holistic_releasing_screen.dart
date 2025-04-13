@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
-class ReleasingScreen extends StatefulWidget {
-  const ReleasingScreen({super.key});
+class SimpleHolisticReleasingScreen extends StatefulWidget {
+  const SimpleHolisticReleasingScreen({super.key});
 
   @override
-  State<ReleasingScreen> createState() => _ReleasingScreenState();
+  State<SimpleHolisticReleasingScreen> createState() => _SimpleHolisticReleasingScreenState();
 }
 
-class _ReleasingScreenState extends State<ReleasingScreen> {
+class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<String> questionTemplates = [
-    '나는 {topic}을/를 허용할 수 있나요?',
-    '나는 {topic}을/를 흘려보낼 수 있나요?',
-    '나는 {topic}을/를 흘려보내고 싶나요?',
-    '언제요?'
+    '나는 최대한 {topic}을/를 환영하도록 나를 허용할 수 있나요?',
+    '나는 최대한 {topic}에 저항하도록 나를 허용할 수 있나요?',
   ];
 
   late Box box;
@@ -30,7 +28,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
   @override
   void initState() {
     super.initState();
-    box = Hive.box('releasingBox');
+    box = Hive.box('simpleHolistic');
     checkAndResetDailyCount();
     scheduleDailyReset();
     loadData();
@@ -71,7 +69,6 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
       currentTopic = box.get('currentTopic', defaultValue: '');
       count = box.get('count', defaultValue: 0);
       _controller.text = currentTopic;
-      // ✅ currentQuestionIndex는 유지 (초기화하지 않음)
     });
   }
 
@@ -92,7 +89,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                 Navigator.of(ctx).pop();
                 loadData();
                 setState(() {
-                  currentQuestionIndex = 0; // ✅ 질문 바로 시작
+                  currentQuestionIndex = 0;
                 });
               },
               child: const Text('확인'),
@@ -103,7 +100,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                 Navigator.of(ctx).pop();
                 loadData();
                 setState(() {
-                  currentQuestionIndex = 0; // ✅ 질문 바로 시작
+                  currentQuestionIndex = 0;
                 });
               },
               child: const Text('초기화 안함'),
@@ -126,13 +123,13 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
         count += 1;
         box.put('count', count);
 
-        final statsBox = Hive.box('releasingStats');
+        final statsBox = Hive.box('simpleHolisticStats');
         final today = todayKey();
         final data = Map<String, int>.from(statsBox.get(today, defaultValue: {}));
         data[currentTopic] = (data[currentTopic] ?? 0) + 1;
         statsBox.put(today, data);
 
-        // ✅ 다음 프레임에서 질문 0으로 리셋
+        // ✅ 다음 프레임에서 0으로 리셋 (UI 안전)
         Future.delayed(Duration.zero, () {
           if (mounted) {
             setState(() {
@@ -161,7 +158,6 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
     ];
   }
 
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -169,12 +165,12 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('릴리징'),
+        title: const Text('심플 홀리스틱 릴리징'),
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart),
             tooltip: '통계 보기',
-            onPressed: () => Navigator.pushNamed(context, '/releasingStats'),
+            onPressed: () => Navigator.pushNamed(context, '/simpleHolisticStats'),
           ),
         ],
       ),
@@ -217,7 +213,9 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                if (currentQuestionIndex >= 0) buildQuestionCard(),
+                if (currentQuestionIndex >= 0 &&
+                    currentQuestionIndex < questionTemplates.length)
+                  buildQuestionCard(),
                 const SizedBox(height: 30),
                 Text(
                   '실행 횟수: $count회',
@@ -232,16 +230,13 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
   }
 
   Widget buildQuestionCard() {
+    // ✅ 범위 초과 방지
     if (currentQuestionIndex < 0 || currentQuestionIndex >= questionTemplates.length) {
-      return const SizedBox.shrink(); // ✅ 인덱스 범위 보호
+      return const SizedBox.shrink();
     }
 
     final rawQuestion = questionTemplates[currentQuestionIndex];
     final question = rawQuestion.replaceAll('{topic}', currentTopic);
-
-    final answers = currentQuestionIndex < 3
-        ? ['네', '아니오']
-        : ['지금', '나중에'];
 
     return Column(
       children: [
@@ -255,7 +250,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: answers.map((text) {
+          children: ['네', '아니오'].map((text) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ElevatedButton(

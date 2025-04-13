@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                           buildMenuButton(context, '호오포노포노', '/hooponopono'),
                           buildMenuButton(context, '릴리징', '/releasing'),
                           buildMenuButton(
-                              context, '심플 홀리스틱 릴리징', '/holistic'),
+                              context, '심플 홀리스틱 릴리징', '/simpleHolistic'),
                         ],
                       ),
                     ),
