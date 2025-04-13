@@ -47,7 +47,7 @@ class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
         children: [
           TableCalendar(
             firstDay: DateTime(2024, 1, 1),
-            lastDay: DateTime(2030, 12, 31),
+            lastDay: DateTime(2999, 12, 31),
             focusedDay: selectedDate,
             selectedDayPredicate: (day) => isSameDay(day, selectedDate),
             onDaySelected: (selectedDay, _) => loadStatsFor(selectedDay),
