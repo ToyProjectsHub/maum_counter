@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:maum_counter/screens/affirmation_screen.dart';
+import 'package:maum_counter/screens/hooponopono_screen.dart';
 import 'screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'screens/affirmation_stats_screen.dart';
+import 'package:maum_counter/screens/affirmation_stats_screen.dart';
+import 'package:maum_counter/screens/hooponopono_stats_screen.dart';
+import 'screens/home_screen.dart';
 
 
 void main() async {
@@ -15,6 +18,7 @@ void main() async {
   await Hive.openBox('affirmationBox');
   await Hive.openBox('affirmationStats');
   await Hive.openBox('hooponoponoBox');
+  await Hive.openBox('hooponoponoStats');
   await Hive.openBox('releasingBox');
   await Hive.openBox('holisticBox');
 
@@ -34,7 +38,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(),
         '/affirmation': (context) => const AffirmationScreen(),
         '/affirmationStats': (context) => const AffirmationStatsScreen(),
-        '/hooponopono': (context) => const Placeholder(), // 호오포노포노 화면 연결 예정
+        '/hooponopono': (context) => const HooponoponoScreen(),
+        '/hooponoponoStats': (context) => new HooponoponoStatsScreen(),
         '/releasing': (context) => const Placeholder(), // 릴리징 화면 연결 예정
         '/holistic': (context) => const Placeholder(), // 심플 홀리스틱 릴리징
         '/settings': (context) => const Placeholder(), // 설정 화면

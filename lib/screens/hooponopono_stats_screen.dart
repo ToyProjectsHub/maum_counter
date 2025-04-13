@@ -3,37 +3,37 @@ import 'package:hive/hive.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-class AffirmationStatsScreen extends StatefulWidget {
-  const AffirmationStatsScreen({super.key});
+class HooponoponoStatsScreen extends StatefulWidget {
+  const HooponoponoStatsScreen({super.key});
 
   @override
-  State<AffirmationStatsScreen> createState() => _AffirmationStatsScreenState();
+  State<HooponoponoStatsScreen> createState() => _HooponoponopStatsScreenState();
 }
 
-class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
+class _HooponoponopStatsScreenState extends State<HooponoponoStatsScreen> {
   DateTime selectedDate = DateTime.now();
   late Box statsBox;
-  Map<String, int> statsForSelectedDay = {};
+  int countForDay = 0;
 
   @override
   void initState() {
     super.initState();
-    statsBox = Hive.box('affirmationStats');
+    statsBox = Hive.box('hooponoponoStats');
     loadStatsFor(selectedDate);
   }
 
   void loadStatsFor(DateTime date) {
     final key = DateFormat('yyyy-MM-dd').format(date);
-    final data = statsBox.get(key, defaultValue: {});
+    final count = statsBox.get(key, defaultValue: 0);
     setState(() {
       selectedDate = date;
-      statsForSelectedDay = Map<String, int>.from(data);
+      countForDay = count;
     });
   }
 
   List<DateTime> getEventDays() {
     final keys = statsBox.keys.cast<String>();
-    return keys.map((key) => DateTime.parse(key).toLocal()).toList();
+    return keys.map((key) => DateTime.parse(key)).toList();
   }
 
   @override
@@ -42,7 +42,7 @@ class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('확언 통계'),
+        title: const Text('호오포노포노 통계'),
       ),
       body: Column(
         children: [
@@ -66,7 +66,7 @@ class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
                       width: 6,
                       height: 6,
                       decoration: const BoxDecoration(
-                        color: Colors.blueAccent,
+                        color: Colors.teal,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -89,29 +89,27 @@ class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: statsForSelectedDay.isEmpty
+            child: countForDay == 0
                 ? const Center(
               child: Text(
-                '해당 날짜에 실행한 확언이 없습니다.',
+                '해당 날짜에 실행한 기록이 없습니다.',
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             )
-                : ListView.builder(
-              itemCount: statsForSelectedDay.length,
-              itemBuilder: (context, index) {
-                final entry = statsForSelectedDay.entries.elementAt(index);
-                return ListTile(
-                  title: Text(
-                    entry.key,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                : ListView(
+              children: [
+                ListTile(
+                  title: const Text(
+                    '실행 횟수',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   trailing: Text(
-                    '${entry.value}회',
+                    '$countForDay회',
                     style: const TextStyle(fontSize: 16),
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
         ],
