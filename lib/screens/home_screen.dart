@@ -20,39 +20,29 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final screenHeight = constraints.maxHeight;
-          final topSpacing = screenHeight * 0.25; // 💡 세로 위치 조절
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                // 데이터 저장 예제
+                await box.put('testKey', 'Hello Hive!');
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: topSpacing),
-
-                    // ✅ 최대 너비 500으로 제한
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 500),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          buildMenuButton(context, '확언', '/affirmation'),
-                          buildMenuButton(context, '호오포노포노', '/hooponopono'),
-                          buildMenuButton(context, '릴리징', '/releasing'),
-                          buildMenuButton(
-                              context, '심플 홀리스틱 릴리징', '/holistic'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                // 데이터 로드 예제
+                var value = box.get('testKey');
+                print(value); // 콘솔에 'Hello Hive!' 출력됨
+              },
+              child: const Text('Hive 저장 및 로드 테스트'),
             ),
-          );
-        },
+            const SizedBox(height: 20),
+            buildMenuButton(context, '확언', '/affirmation'),
+            buildMenuButton(context, '호오포노포노', '/hooponopono'),
+            buildMenuButton(context, '릴리징', '/releasing'),
+            buildMenuButton(context, '심플 홀리스틱 릴리징', '/holistic'),
+          ],
+        ),
       ),
     );
   }

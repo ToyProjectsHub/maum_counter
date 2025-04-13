@@ -174,7 +174,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final screenHeight = constraints.maxHeight;
-            final topSpacing = screenHeight * 0.25;
+            final topSpacing = screenHeight * 0.3;
 
             return SingleChildScrollView(
               child: Padding(
