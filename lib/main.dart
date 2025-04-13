@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:maum_counter/screens/affirmation_screen.dart';
-import 'package:maum_counter/screens/settings_screen.dart';
 import 'screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/affirmation_stats_screen.dart';
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/hooponopono': (context) => const Placeholder(), // 호오포노포노 화면 연결 예정
         '/releasing': (context) => const Placeholder(), // 릴리징 화면 연결 예정
         '/holistic': (context) => const Placeholder(), // 심플 홀리스틱 릴리징
-        '/settings': (context) => const SettingsScreen(), // 설정 화면
+        '/settings': (context) => const Placeholder(), // 설정 화면
       },
     );
   }
