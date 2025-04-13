@@ -13,28 +13,17 @@ class AffirmationStatsScreen extends StatefulWidget {
 class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
   DateTime selectedDate = DateTime.now();
   late Box statsBox;
-  late Box settingsBox;
   Map<String, int> statsForSelectedDay = {};
 
   @override
   void initState() {
     super.initState();
     statsBox = Hive.box('affirmationStats');
-    settingsBox = Hive.box('settingsBox');
     loadStatsFor(selectedDate);
   }
 
-  String getAdjustedStatKey(DateTime now) {
-    final resetHour = settingsBox.get('resetHour', defaultValue: 0);
-    if (now.hour < resetHour) {
-      now = now.subtract(const Duration(days: 1));
-    }
-    return DateFormat('yyyy-MM-dd').format(DateTime(now.year, now.month, now.day));
-  }
-
   void loadStatsFor(DateTime date) {
-    final resetHour = settingsBox.get('resetHour', defaultValue: 0);
-    final key = getAdjustedStatKey(date);
+    final key = DateFormat('yyyy-MM-dd').format(date);
     final data = statsBox.get(key, defaultValue: {});
     setState(() {
       selectedDate = date;
@@ -71,7 +60,7 @@ class _AffirmationStatsScreenState extends State<AffirmationStatsScreen> {
               markerBuilder: (context, date, events) {
                 if (eventDays.any((d) => isSameDay(d, date))) {
                   return Positioned(
-                    bottom: 10,
+                    bottom: 10, // ✅ 살짝 아래로 내려서 겹침 방지
                     child: Container(
                       width: 6,
                       height: 6,
