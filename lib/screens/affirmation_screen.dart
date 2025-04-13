@@ -265,7 +265,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                       ),
                     const SizedBox(height: 20),
                     Text(
-                      '실행 횟수: $count',
+                      '실행 횟수: $count회',
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 20),
