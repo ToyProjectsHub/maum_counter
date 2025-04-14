@@ -5,6 +5,7 @@ import 'package:maum_counter/screens/full_holistic_releasing_stats_screen.dart';
 import 'package:maum_counter/screens/hooponopono_screen.dart';
 import 'package:maum_counter/screens/releasing_screen.dart';
 import 'package:maum_counter/screens/releasing_stats_screen.dart';
+import 'package:maum_counter/screens/setting_screen.dart';
 import 'package:maum_counter/screens/simple_holistic_releasing_screen.dart';
 import 'package:maum_counter/screens/simple_holistic_releasing_stats_screen.dart';
 import 'screens/home_screen.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
         '/simpleHolisticStats': (context) => const SimpleHolisticStatsScreen(),
         '/fullHolistic': (context) => const FullHolisticReleasingScreen(),
         '/fullHolisticStats': (context) => const FullHolisticReleasingStatsScreen(),
-        '/settings': (context) => const Placeholder(), // 설정 화면
+        '/settings': (context) => const SettingScreen(), // 설정 화면
       },
     );
   }
