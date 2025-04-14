@@ -12,6 +12,7 @@ import 'screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:maum_counter/screens/affirmation_stats_screen.dart';
 import 'package:maum_counter/screens/hooponopono_stats_screen.dart';
+import 'package:maum_counter/theme/app_theme.dart';
 import 'screens/home_screen.dart';
 
 
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '마음 카운터',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: AppTheme.light,
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

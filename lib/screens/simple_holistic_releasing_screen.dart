@@ -270,9 +270,6 @@ class _SimpleHolisticReleasingScreenState extends State<SimpleHolisticReleasingS
                     onPressed: () => handleAnswer(text),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
                     ),
                     child: Text(text),
                   ),

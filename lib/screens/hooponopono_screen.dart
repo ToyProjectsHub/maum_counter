@@ -113,16 +113,14 @@ class _HooponoponoScreenState extends State<HooponoponoScreen> {
                       onPressed: handlePhraseTap,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 80),
-                        backgroundColor: Colors.teal,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        elevation: 4,
                       ),
                       child: Text(
                         currentPhrase,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20, color: Colors.white),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                   ),

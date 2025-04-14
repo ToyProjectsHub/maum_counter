@@ -57,6 +57,26 @@ class _ReleasingStatsScreenState extends State<ReleasingStatsScreen> {
               formatButtonVisible: false,
               titleCentered: true,
             ),
+            calendarStyle: CalendarStyle(
+              selectedDecoration: BoxDecoration(
+                color: const Color(0xFFFFCC80), // 선택된 날짜 배경색
+                shape: BoxShape.circle,
+              ),
+              todayDecoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFFFFCC80), width: 1.2), // ✅ 오늘 날짜 테두리
+                shape: BoxShape.circle,
+              ),
+              todayTextStyle: const TextStyle(
+                color: Color(0xFF6D4C41), // ✅ 진한 브라운으로 명확히
+                fontWeight: FontWeight.bold,
+              ),
+              markerDecoration: const BoxDecoration(
+                color: Color(0xFF6D4C41), // 도트 마커 색상
+                shape: BoxShape.circle,
+              ),
+              weekendTextStyle: TextStyle(color: Colors.brown[600]),
+              defaultTextStyle: TextStyle(color: Colors.brown[800]),
+            ),
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, date, events) {
                 if (eventDays.any((d) => isSameDay(d, date))) {
@@ -66,7 +86,7 @@ class _ReleasingStatsScreenState extends State<ReleasingStatsScreen> {
                       width: 6,
                       height: 6,
                       decoration: const BoxDecoration(
-                        color: Colors.indigo,
+                        color: Color(0xFF6D4C41),
                         shape: BoxShape.circle,
                       ),
                     ),

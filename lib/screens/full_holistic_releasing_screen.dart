@@ -185,7 +185,7 @@ class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScree
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('풀 홀리스틱 릴리징'),
+        title: const Text('홀리스틱 릴리징'),
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart),
@@ -223,9 +223,6 @@ class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScree
                         onPressed: () => startTopic(_controller.text.trim()),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
                         ),
                         child: const Text('시작'),
                       ),

@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: topSpacing),
 
-                    // ✅ 최대 너비 500으로 제한
+                    // 최대 너비 500으로 제한
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 500),
                       child: Column(
@@ -67,15 +67,10 @@ class HomeScreen extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
-          backgroundColor: Colors.blue.shade100,
-          elevation: 2,
         ),
         child: Text(
           title,
-          style: const TextStyle(fontSize: 18, color: Colors.black87),
+            style: TextStyle(fontSize: 18),
         ),
       ),
     );

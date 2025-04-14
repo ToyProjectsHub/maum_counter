@@ -279,9 +279,6 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                     onPressed: () => handleAnswer(text),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 48), // 높이 고정
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
                     ),
                     child: Text(text),
                   ),

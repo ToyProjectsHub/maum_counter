@@ -137,6 +137,12 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
   void showFavoriteModal() {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder( // ✅ 여기!
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15), // 위쪽만 둥글게
+        ),
+      ),
       builder: (ctx) {
         return Container(
           padding: const EdgeInsets.all(16),
@@ -154,6 +160,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                   itemBuilder: (context, index) {
                     final item = favoriteList[index];
                     return ListTile(
+                      contentPadding: const EdgeInsets.only(left: 24, right: 16),
                       title: Text(item),
                       onTap: () {
                         Navigator.of(context).pop();
@@ -252,14 +259,11 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                           onPressed: incrementCount,
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 80),
-                            backgroundColor: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                            elevation: 4,
                           ),
                           child: Text(
                             currentAffirmation,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20, color: Colors.white),
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
@@ -271,9 +275,9 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: showFavoriteModal,
-                      child: const Text(
+                      child: Text(
                         '저장한 확언 보기',
-                        style: TextStyle(fontSize: 16, color: Colors.blueGrey, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 16, color: Color(0xFF757575), fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
