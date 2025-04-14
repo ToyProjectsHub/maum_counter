@@ -120,7 +120,7 @@ class _HooponoponoScreenState extends State<HooponoponoScreen> {
                       child: Text(
                         currentPhrase,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ),
                   ),
@@ -128,7 +128,7 @@ class _HooponoponoScreenState extends State<HooponoponoScreen> {
                   const SizedBox(height: 30),
                   Text(
                     '실행 횟수: $count회',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

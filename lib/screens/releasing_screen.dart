@@ -171,7 +171,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
       TextSpan(text: fullText.substring(0, start)),
       TextSpan(
         text: topic,
-        style: const TextStyle(color: Colors.blue),
+        style: TextStyle(color: Colors.blue),
       ),
       TextSpan(text: fullText.substring(start + topic.length)),
     ];
@@ -236,7 +236,7 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
                 const SizedBox(height: 30),
                 Text(
                   '실행 횟수: $count회',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -263,7 +263,11 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
             children: buildColoredQuestion(question),
           ),
         ),

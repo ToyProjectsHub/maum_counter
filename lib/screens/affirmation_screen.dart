@@ -263,14 +263,14 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                           child: Text(
                             currentAffirmation,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     const SizedBox(height: 20),
                     Text(
                       '실행 횟수: $count회',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 20),
                     TextButton(
