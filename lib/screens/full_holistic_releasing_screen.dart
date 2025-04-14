@@ -250,8 +250,7 @@ class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScree
   }
 
   Widget buildQuestionCard() {
-    if (currentQuestionIndex < 0 ||
-        currentQuestionIndex >= questionTemplates.length) {
+    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionTemplates.length) {
       return const SizedBox.shrink();
     }
 
@@ -268,22 +267,27 @@ class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScree
           ),
         ),
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: ['네', '아니오'].map((text) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ElevatedButton(
-                onPressed: () => handleAnswer(text),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500), // ✅ 최대 너비 제한
+          child: Row(
+            children: ['네', '아니오'].map((text) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: ElevatedButton(
+                    onPressed: () => handleAnswer(text),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(0, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: Text(text),
                   ),
                 ),
-                child: Text(text),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

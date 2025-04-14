@@ -268,22 +268,27 @@ class _ReleasingScreenState extends State<ReleasingScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: answers.map((text) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ElevatedButton(
-                onPressed: () => handleAnswer(text),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500), // ✅ 버튼 영역 최대 너비 제한
+          child: Row(
+            children: answers.map((text) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: ElevatedButton(
+                    onPressed: () => handleAnswer(text),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(0, 48), // 높이 고정
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: Text(text),
                   ),
                 ),
-                child: Text(text),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
