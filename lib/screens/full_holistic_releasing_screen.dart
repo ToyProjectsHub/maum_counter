@@ -262,7 +262,7 @@ class _FullHolisticReleasingScreenState extends State<FullHolisticReleasingScree
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             children: buildColoredQuestion(question),
           ),

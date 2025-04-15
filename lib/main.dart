@@ -45,6 +45,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '마음 카운터',
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
