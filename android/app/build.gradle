@@ -37,6 +37,14 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appName = "maum_counter"
+            def versionName = variant.versionName
+            outputFileName = "${appName}_${versionName}.apk"
+        }
+    }
 }
 
 flutter {

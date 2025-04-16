@@ -19,6 +19,9 @@ import 'screens/setting_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Future.delayed(const Duration(milliseconds: 700));
+
   await Hive.initFlutter();
 
   // 모든 Hive 박스 열기
