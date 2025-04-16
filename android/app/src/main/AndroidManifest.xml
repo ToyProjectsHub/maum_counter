@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="maum_counter"
+        android:label="마음 카운터"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
